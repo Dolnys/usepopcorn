@@ -6,7 +6,7 @@ const average = (arr) =>
 const KEY = 'd4ff0e05'
 
 export default function App() {
-  const [query, setQuery] = useState('Star Wars')
+  const [query, setQuery] = useState('')
   const [movies, setMovies] = useState([])
   const [watched, setWatched] = useState([])
   const [isLoading, setIsLoading] = useState(false)
@@ -31,12 +31,15 @@ export default function App() {
 
   useEffect(
     function () {
+      const controller = new AbortController()
+
       async function fetchMovies() {
         try {
           setIsLoading(true)
           setError('')
           const res = await fetch(
-            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+            { signal: controller.signal }
           )
 
           if (!res.ok)
@@ -47,9 +50,12 @@ export default function App() {
           if (data.Response === 'False') throw new Error('Movie not found')
 
           setMovies(data.Search)
+          setError('')
         } catch (err) {
           console.error(err.message)
-          setError(err.message)
+          if (err.name !== 'AbortError') {
+            setError(err.message)
+          }
         } finally {
           setIsLoading(false)
         }
@@ -62,6 +68,10 @@ export default function App() {
       }
 
       fetchMovies()
+
+      return function () {
+        controller.abort()
+      }
     },
     [query]
   )
@@ -256,6 +266,10 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     function () {
       if (!title) return
       document.title = `Movie | ${title}`
+
+      return function () {
+        document.title = 'UsePopcorn'
+      }
     },
     [title]
   )
