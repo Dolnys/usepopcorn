@@ -58,6 +58,10 @@ body {
   position: relative;
 }
 
+.box::-webkit-scrollbar {
+  width: 0;
+}
+
 .loader {
   text-align: center;
   text-transform: uppercase;
