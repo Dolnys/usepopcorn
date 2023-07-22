@@ -1,4 +1,4 @@
- # [UsePopcorn]([https://learned-today.netlify.app/](https://usepopcorn-movies.netlify.app/))  
+ # [UsePopcorn](https://usepopcorn-movies.netlify.app/)
  
 UsePopcorn is a comprehensive movie API that empowers users to explore a vast collection of films, rate the ones they've watched, and create personalized movie lists. Whether you're a movie enthusiast, a casual viewer, or just looking for something new to watch, UsePopcorn has you covered with its extensive movie database and interactive features.
 
